@@ -1,12 +1,5 @@
-
-import './App.css';
+import Body from "./components/Body";
 
 function App() {
- return(
-  <div className='bg-green-300 font-extrabold'>
-    lets buitld the gpt
-  </div>
- )
-}
-
-export default App;
+  return <Body/>;
+}export default App;

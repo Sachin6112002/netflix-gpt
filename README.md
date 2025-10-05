@@ -1,7 +1,8 @@
 # Netflix GPT
 -create react app
 -configure TailwindCSS
-- 
+-Header 
+Login form
 
 
 # Features 
@@ -9,8 +10,8 @@
     -Sign In/ Sign up Form 
     -Redirect to Browser Page
 -Browse page
-    -Header 
-    -Main movie
+    - Header 
+    - Main movie
     - Tailer in Bg
     - Title & Description
     - MovieSuggestion
