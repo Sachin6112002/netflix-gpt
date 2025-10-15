@@ -3,17 +3,24 @@ import Header from "./Header";
 import { checkValidData } from "../utils/validate";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword, updateProfile
 } from "firebase/auth";
 import { auth } from "../utils/firebase.js";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice.js";
 
 const Login = () => {
+  
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const dispatch = useDispatch()
+  const navigate = useNavigate() 
+  const name = useRef(null)
   const email = useRef(null);
   const password = useRef(null);
   const handleButtonClick = () => {
-    const message = checkValidData(email.current.value, password.current.value);
+    const message = checkValidData(email.current.value, password.current.value, );
     setErrorMessage(message);
     if (message) return;
     if (!isSignInForm) {
@@ -27,7 +34,17 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+          updateProfile(auth.currentUser, {
+  displayName: name.current.value
+}).then(() => {
+const {uid, email, displayName} =auth.currentUser;
+    dispatch(addUser({uid: uid, email: email, displayName: displayName}))
+  navigate("/browser");
+}).catch((error) => {
+ setErrorMessage(error.message)
+});
           console.log(user);
+        
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -42,7 +59,9 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
+          navigate("/browser")
           console.log(user);
+
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -73,6 +92,7 @@ const Login = () => {
         {!isSignInForm && (
           <input
             type="text"
+            ref={name}
             placeholder="Full Name"
             className="p-2 m-2 h-14 bg-gray-700 bg-opacity-70 hover:border border-gray-400-2px rounded-md "
           />
